@@ -96,10 +96,13 @@ def serializable_fields(model):
 @post_processing(dict)
 def get_obj_dict(model, obj):
     for field in serializable_fields(model):
-        value = getattr(obj, field.attname)
-        if value is None:
-            yield field.attname, None
-        elif isinstance(value, (F, Expression)):
-            continue
-        else:
-            yield field.attname, field.get_prep_value(value)
+        try:
+            value = getattr(obj, field.attname)
+            if value is None:
+                yield field.attname, None
+            elif isinstance(value, (F, Expression)):
+                continue
+            else:
+                yield field.attname, field.get_prep_value(value)
+        except Exception as e:
+            print(f"failed to invalidate {field.attname}; got exception e")
