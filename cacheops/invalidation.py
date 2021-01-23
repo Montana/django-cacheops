@@ -105,4 +105,4 @@ def get_obj_dict(model, obj):
             else:
                 yield field.attname, field.get_prep_value(value)
         except Exception as e:
-            print(f"failed to invalidate {field.attname}; got exception e")
+            print(f"failed to invalidate {field.attname}; got exception {e}")
